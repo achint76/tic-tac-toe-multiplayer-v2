@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="leaderboard-container">
+        <h2 class="leaderboard-title">Leaderboard</h2>
+        <input type="text" placeholder="Search by username..." class="search-bar" />
+        <div class="leaderboard">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Username</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody id="player-list">
+                    <!-- Sample player data -->
+                    <tr>
+                        <td>1</td>
+                        <td>Player1</td>
+                        <td>1500</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Player2</td>
+                        <td>1200</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Player3</td>
+                        <td>1000</td>
+                    </tr>
+                    <!-- Add more players here -->
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination">
+            <button class="prev-btn">Previous</button>
+            <span class="page-info">Page 1 of X</span>
+            <button class="next-btn">Next</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

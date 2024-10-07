@@ -1,0 +1,174 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    text-align: center;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+#heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Waiting Room Styles */
+#waitingMessage {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+#opponentFound {
+    display: none;
+    font-size: 18px;
+    color: #28a745;
+}
+
+#startGameButton {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#startGameButton:hover {
+    background-color: #218838;
+}
+
+/* Game Board Styles */
+#gameBoard {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cell:hover {
+    background-color: #e9ecef;
+}
+
+#gameStatus {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Restart Button */
+#restartButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#restartButton:hover {
+    background-color: #0056b3;
+}
+
+.gameBoardSection{
+    display: flex;
+}
+/* .gameInfo{
+    text-align: center;
+    margin-top: 20px;
+} */
+
+
+.gameInfo {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px;
+    margin-top: 10px;
+    text-align: center;
+    border-radius: 10px;
+    display: none; /* Initially hidden */
+}
+
+/* Player-specific colors */
+.playerX {
+    background-color: #cce7ff; /* Light blue background for Player X */
+    color: #003366; /* Dark blue text for Player X */
+}
+
+.playerO {
+    background-color: #ffcccc; /* Light red background for Player O */
+    color: #660000; /* Dark red text for Player O */
+}
+
+
+#view-leaderboard {
+    position: fixed; /* Fixes the button to the screen */
+    right: 8px; /* Positions it 20px from the right */
+    top: 50%; /* Vertically centers the button */
+    transform: translateY(-50%); /* Adjusts the button to be perfectly centered */
+    padding: 10px 10px; /* Adds some padding for a nicer look */
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    border: none; /* Removes the border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Changes cursor to pointer on hover */
+    font-size: 16px; /* Increases font size */
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow for depth */
+    display: none; /* Hide initially */
+}
+
+#view-leaderboard:hover {
+    background-color: #45a049; /* Slightly darker green on hover */
+}
+
+
+
+#customConfirmModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+#customConfirmModal button {
+    margin: 10px;
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Waiting Room Section -->
+    <div id="waitingRoom">
+        <div id="heading">Waiting Room</div>
+        <div id="waitingMessage">Searching for an opponent...</div>
+        <div id="opponentFound" style="display: none;">
+            Opponent found! Click the button below to start the game.
+            <button id="startGameButton">Start Game</button>
+        </div>
+    </div>
+    
+    <!-- Game Board Section (Initially Hidden) -->
+    <div id="gameBoardSection" style="display: none;">
+        <div class="container">
+            <h1>Tic Tac Toe</h1>
+            <div id="gameBoard"></div>
+            <div id="gameStatus"></div>
+            <button id="restartButton">Restart Game</button>
+            <button id="view-leaderboard" style="display: none;">Go to Leaderboard</button>
+        </div>
+        <div class="gameInfo">XO</div>
+        
+        
+    </div>
+
+    <div id="customConfirmModal" style="display:none;">
+        <p>Do you agree to restart the game?</p>
+        <button id="confirmYes">Yes</button>
+        <button id="confirmNo">No</button>
+    </div>
+    
+        <button id="view-leaderboard" style="display: none;">Go to Leaderboard</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
