@@ -5,8 +5,9 @@ const http = require('http').Server(app);
 const cors = require('cors');
 const session = require('express-session');
 const path = require('path');
+const RedisStore = require('connect-redis').default;
 const redis = require('redis');
-const client = redis.createClient({ host: '127.0.0.1', port: 6379 });
+const redisClient = redis.createClient({ host: '127.0.0.1', port: 6379 });
 
 // Redis server se connect hone ke baad log message
 // client.on('connect', () => {
@@ -15,7 +16,7 @@ const client = redis.createClient({ host: '127.0.0.1', port: 6379 });
 
 (async () => {
     try {
-        await client.connect();
+        await redisClient.connect();
         console.log('Connected to Redis');
     } catch (err) {
         console.error('Redis connection error:', err);
@@ -23,12 +24,13 @@ const client = redis.createClient({ host: '127.0.0.1', port: 6379 });
 })();
 
 // Agar error aaye to usko handle karna
-client.on('error', (err) => {
+redisClient.on('error', (err) => {
     console.log('Redis error: ', err);
 });
 
-module.exports = client;
+module.exports = redisClient;
 
+app.use(express.json());
 
 const connectDB = require('./config/db.config');
 const authRoutes = require('./routes/users.routes');
@@ -45,30 +47,47 @@ app.use(cors({
     credentials: true
 }));
 
-app.use(express.json());
+
 
 //setting up session middleware with expiry time
 app.use(session({
+    store: new RedisStore({ client: redisClient }),
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
+        httpOnly: true,
         secure: false,
+        sameSite: 'lax',
         maxAge: 3600000  //1hr in milliseconds
     }
 }))
+
+
+
+app.get('/', (req, res) => {
+    if (req.session.views) {
+        req.session.views++;
+        res.send(`You have visited this page ${req.session.views} times`);
+    } else {
+        req.session.views = 1;
+        res.send('Welcome to the session demo. Refresh!');
+    }
+});
+
+
 
 app.use('/api/auth', authRoutes);
 
 app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
 // Redis server se connect hone ke baad log message
-client.on('connect', () => {
+redisClient.on('connect', () => {
     console.log('Connected to Redis');
 });
 
 // Agar error aaye to usko handle karna
-client.on('error', (err) => {
+redisClient.on('error', (err) => {
     console.log('Redis error: ', err);
 });
 
@@ -77,3 +96,7 @@ const PORT = process.env.PORT || 5000;
 http.listen(PORT, ()=> {
     console.log(`Server is running on port ${PORT}`);
 })
+
+
+
+//C:\Program Files\Redis

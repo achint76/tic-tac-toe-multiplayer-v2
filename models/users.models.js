@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema({
         type: Number,
         required: true,
         default: 0
+    },
+    isLogout: {
+        type: Boolean,
+        default: false
     }
 },
     { timestamps: true });

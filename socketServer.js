@@ -451,7 +451,7 @@ function attachEventListeners(io, roomId, socketId, game) {
         }
         
         console.log("Move made by", socketId, "Data:", moveData);
-        console.log(game.board,"GAMEBOARD");
+        //console.log(game.board,"GAMEBOARD");
         
         if ((moveData.player === 'X' && playerX.socketId !== socketId) || (moveData.player === 'O' && playerO.socketId !== socketId)) {
             playerSocket.emit('notYourTurn', 'It\'s not your turn!', moveData.row, moveData.col);
@@ -464,6 +464,7 @@ function attachEventListeners(io, roomId, socketId, game) {
             game.currentPlayer = game.currentPlayer === 'X' ? 'O' : 'X';
             
             await game.save();
+            console.log(game.board,"GAMEBOARD");
             io.to(roomId).emit('moveMade', moveData);
 
             const winner = checkWinner(game.board);
@@ -494,8 +495,13 @@ function attachEventListeners(io, roomId, socketId, game) {
         // Notify both players that the game will be restarted
         console.log("GAMEID:", gameId);
         io.to(roomId).emit('restartGameRequested', gameId);
+    });
         
 
+
+        playerSocket.on('restart-rejected', (data) => {
+            io.to(roomId).emit('opponent-rejected-restart', data.message);
+        })
 
         playerSocket.on('agreeRestart', async (data) => {
             console.log("SOCID", socketId);
@@ -508,6 +514,7 @@ function attachEventListeners(io, roomId, socketId, game) {
                           game.restartRequests = [];
                      }
                       game.restartRequests.push(socketId);
+                      await game.save();
                       console.log(game.restartRequests.length, "GAMERESTARTSLENGTH");
                      if(game.restartRequests.length >=2){
                          game.board = [['', '', ''], ['', '', ''], ['', '', '']];
@@ -518,7 +525,7 @@ function attachEventListeners(io, roomId, socketId, game) {
 
                          await game.save();
                          console.log(game.board,"GAMEBOARD");
-                         console.log(roomId,"ROOMID", gameId, "GAMEID");
+                         //console.log(roomId,"ROOMID", gameId, "GAMEID");
                          io.to(roomId).emit('gameReset', { board: game.board, currentPlayer: game.currentPlayer});
 
                         // else{
@@ -552,7 +559,7 @@ function attachEventListeners(io, roomId, socketId, game) {
         // // Attach event listeners for the new game
         // attachEventListeners(io, newRoomId, playerX.socketId, newGame);
         // attachEventListeners(io, newRoomId, playerO.socketId, newGame);
-    });
+    //});
 }
 
 // Helper function to check for a winner using a 2D array

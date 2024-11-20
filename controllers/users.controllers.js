@@ -47,6 +47,15 @@ const UserController = {
                 id: user._id,
                 email: user.email
             };
+
+            console.log("Session after login:", req.session.user);
+
+
+            req.session.save((err) => {
+                if (err) {
+                    return res.status(500).json({ success: false, message: 'Session save error!' });
+                }
+
             return res.status(200).json({
                 success: true,
                 message: 'Login successful',
@@ -54,6 +63,7 @@ const UserController = {
                 //redirectTo: 'http://127.0.0.1:5000/waiting-room/index.html',
                 data: user
             });
+        });
         }catch(error){
             return res.status(500).json({
                 success: false,
@@ -116,7 +126,63 @@ const UserController = {
             });
         }
     }
-    
+    ,
+
+    async logout(req, res){
+        // try{
+        //     console.log("REQSESSION", req.session.user);
+        //     console.log(req.body,"REQBODY");
+        //     console.log("LOGGINGOUT");
+
+
+            
+        //     // const userId = req.session.user.id;
+        //     const { userId } = req.body;
+        //     if(!userId){
+        //         return res.status(400).json({ message: "User ID is required!" });
+        //     }
+        //     console.log("USERID", userId);
+        //     await userModel.updateOne({ _id: userId }, { isLogout: true });
+        //     req.session?.destroy((err) => {
+        //         if(err){
+        //             return res.status(500).json({ message: "Logout failed!"});
+        //         }
+
+        //         res.clearCookie('connect.sid', { path: '/'});
+
+        //         return res.status(200).json({message: 'Logout successful!'});
+        //     })
+        // }catch(error){
+        //     return res.status(500).json({
+        //         success: false,
+        //         message: 'Internal Server Error',
+        //         error: error.message
+        //     });
+        // }
+        if(req.body){
+            console.log("REQBODY", req.body);
+        }else{
+            console.log("NOTHING IN BODY");
+        }
+        console.log(req.session,"1");
+        console.log(req.session.user,"2");
+        console.log(req.cookies, "3");
+
+        if (req.session.user && req.session.user.id) {
+            const userId = req.session.user.id;  // Get user ID from session
+            req.session.destroy((err) => {
+                if (err) {
+                    console.error('Error destroying session:', err);
+                    return res.status(500).json({ message: 'Failed to log out' });
+                }
+                res.clearCookie('connect.sid');  // Clear session cookie
+                console.log(`User ${userId} logged out`);
+                return res.status(200).json({ message: `User ${userId} logged out` });
+            });
+        } else {
+            return res.status(400).json({ message: 'User ID is required!' });
+        }
+    }
 }
 
 module.exports = UserController;

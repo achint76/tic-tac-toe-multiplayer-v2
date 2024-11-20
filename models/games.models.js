@@ -28,7 +28,11 @@ const gameSchema = new mongoose.Schema({
     winner: {
         type: String,
         default: null
-    }
+    },
+    restartRequests: {
+        type: [String],
+        default: []
+    },
 }, { versionKey: false, timestamps: true });
 
 module.exports = mongoose.model('Game', gameSchema);
