@@ -177,7 +177,7 @@ const UserController = {
                 }
                 res.clearCookie('connect.sid');  // Clear session cookie
                 console.log(`User ${userId} logged out`);
-                return res.status(200).json({ message: `User ${userId} logged out` });
+                return res.status(200).json({ message: `User ${userId} logged out`, redirectTo: 'http://127.0.0.1:5000/login/index.html'});
             });
         } else {
             return res.status(400).json({ message: 'User ID is required!' });

@@ -381,8 +381,16 @@ module.exports = function(io) {
             waitingPlayers.push({ userId: userData._id, socketId: socket.id });
             console.log('Current waiting players:', waitingPlayers);
 
-            // If there are at least two players waiting, start the game
-            if (waitingPlayers.length >= 2) {
+            //timer logic
+            let timer = 60;
+            const interval = setInterval(async () => {
+                timer--;
+
+
+                // If there are at least two players waiting, start the game
+            if (waitingPlayers.length >= 2  && timer > 0) {
+                //console.log(interval, "INTERVAL");
+                clearInterval(interval);
                 playerX = waitingPlayers.shift();
                 playerO = waitingPlayers.shift();
 
@@ -411,9 +419,24 @@ module.exports = function(io) {
                 // Attach event listeners for both players
                 attachEventListeners(io, roomId, playerX.socketId, game);
                 attachEventListeners(io, roomId, playerO.socketId, game);
-            } else {
-                socket.emit('waitingRoomStatus', 'Waiting for another player...');
+            }else if(timer<=0){
+                io.to(socket.id).emit('timer update', { timer: 0 });
+                clearInterval(interval);
+                const index = waitingPlayers.findIndex(p => p.socketId === socket.id);
+            if (index !== -1) {
+                waitingPlayers.splice(index, 1); // Remove the player from the waiting room
+                socket.emit('waitingRoomStatus', 'No opponent found. Try again later by refreshing.');
             }
+                //
+            }
+                 else {
+                //socket.emit('waitingRoomStatus', 'Waiting for another player...');
+                socket.emit('timer update', { timer });
+            }
+                
+            }, 1000);
+
+            
         });
 
         // Event listener for disconnects
