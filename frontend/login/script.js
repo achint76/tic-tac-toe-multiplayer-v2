@@ -42,17 +42,19 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     const password = document.getElementById('password').value;
     console.log("email password received", email, password);
     try {
-        const response = await fetch('http://localhost:5000/api/auth/login', {
+        const response = await fetch('http://127.0.0.1:5000/api/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
+            credentials: 'include',
             body: JSON.stringify({ email, password })
         });
 
         const data = await response.json();
         console.log("DATA", data);
         if (data.success) {
+            console.log("DATA-DATA", data.data);
             localStorage.setItem('user', JSON.stringify(data.data));
             console.log(data.redirectTo,"REDIRECT");
             window.location.href = data.redirectTo;
