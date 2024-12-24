@@ -10,12 +10,28 @@
     <!-- Waiting Room Section -->
     <div id="waitingRoom">
         <div id="heading">Waiting Room</div>
+
+        <div id="alertBox" style="display: none;" class="alert"></div>
+
+        <div id="timer" style="display: block;"></div>
         <div id="waitingMessage">Searching for an opponent...</div>
         <div id="opponentFound" style="display: none;">
             Opponent found! Click the button below to start the game.
             <button id="startGameButton">Start Game</button>
         </div>
     </div>
+
+
+
+    <!-- Result Modal -->
+<div id="result-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2 id="result-heading"></h2>
+      <p id="result-message"></p>
+      <button id="close-modal">Close</button>
+    </div>
+  </div>
+  
     
     <!-- Game Board Section (Initially Hidden) -->
     <div id="gameBoardSection" style="display: none;">
@@ -38,6 +54,8 @@
     </div>
     
         <button id="view-leaderboard" style="display: none;">Go to Leaderboard</button>
+        <button id="logoutBtn" style="display: none;">Logout</button>
+
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="script.js"></script>
